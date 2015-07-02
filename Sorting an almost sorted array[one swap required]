@@ -1,0 +1,48 @@
+package com.test.basics;
+
+public class AlmostSortedArray {
+
+	public static void almostSort(int[] A) {
+		int i, key, j;
+		int leftIndex = 0;
+		int rightIndex = 0;
+		boolean swap = false;
+		for (i = 1; i < A.length; i++) {
+			key = A[i];
+			j = i - 1;
+
+			/*
+			 * Move elements of A[0..i-1], that are greater than key, to one
+			 * position ahead of their current position. This loop will run at
+			 * most k times
+			 */
+			while (A[j] > key) {
+				if (leftIndex == 0) {
+					leftIndex = j;
+
+				}
+				rightIndex = i;
+				swap = true;
+				break;
+
+			}
+		}
+		if (swap) {
+			int temp;
+			temp = A[leftIndex];
+			A[leftIndex] = A[rightIndex];
+			A[rightIndex] = temp;
+		}
+		for (int element : A) {
+			System.out.println(element);
+		}
+
+	}
+
+	public static void main(String args[]) {
+
+		int[] array = new int[] { 10, 20, 90, 40, 50, 50, 60, 70, 80, 30 };
+		almostSort(array);
+	}
+
+}
