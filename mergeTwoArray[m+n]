@@ -1,0 +1,52 @@
+public class Merge {
+
+	public static void mergeTwoArray(int[] a, int[] b) {
+
+		int i;
+		int count = 0;
+		int value = 0;
+		int temp = 0;
+		int value1 = 0;
+
+		for (i = 0; i < a.length; i++) {
+
+			if (a[i] == 0) {
+				if (i == a.length - 1) {
+					a[i] = (b[count] > a[i - 1]) ? b[count] : 0;
+				} else if (b[count] > a[i - 1] && b[count] < a[i + 1]) {
+					a[i] = b[count];
+					count++;
+				} else if (b[count] < a[i - 1]) {
+					temp = i - 1;
+					while (a[temp - 1] > b[count]) {
+						temp--;
+					}
+					value = a[temp];
+					a[temp] = b[count];
+					temp = temp + 1;
+					while (value < a[temp]) {
+						value1 = a[temp];
+						a[temp] = value;
+						value = value1;
+						temp++;
+					}
+					a[temp] = value1;
+					count++;
+
+				}
+			}
+		}
+		for (int item : a) {
+			System.out.println(item);
+		}
+
+	}
+
+	public static void main(String args[]) {
+
+		int[] a = new int[] { 2, 0, 5, 7, 9, 11,12,13, 0, 0 };
+		int[] b = new int[] { 3, 8, 15 };
+		Merge.mergeTwoArray(a, b);
+	}
+
+}
