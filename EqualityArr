@@ -1,0 +1,36 @@
+package com.vinoth.test;
+
+import java.util.HashMap;
+
+public class EqualityArr {
+	public static int eqArr(int[] input) {
+		HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
+		int duplicateItems = 0;
+		Integer max_value = Integer.MIN_VALUE;
+	
+		for (int i : input) {
+			if(!hm.containsKey(i)) {
+				hm.put(i, 1);
+			} else {
+				hm.put(i, hm.get(i) + 1);
+			}
+		}
+		
+		for (Integer integer : hm.values()) {
+			if(integer > max_value) {
+				max_value = integer;
+			}
+		}
+		
+		return input.length - max_value;
+	}
+
+	public static void main(String[] args) {
+
+		// Karl has an array of integers. He wants to reduce the array until all remaining elements are equal. Determine the minimum number of elements to delete to reach his goal.
+		int[] arr = {24,29, 70, 43, 12, 27, 29, 24, 41, 12, 41, 43, 24, 70, 24, 100, 41, 43, 43, 100, 29, 70, 100, 43, 41, 27, 70, 70, 59, 41, 24, 24, 29, 43,24, 27, 70, 24, 27, 70, 24, 70, 27, 24, 43, 27, 100, 41, 12, 70, 43, 70, 62, 12, 59, 29, 62, 41, 100, 43, 43, 59, 59, 70, 12, 27, 43, 43, 27, 27, 27, 24, 43, 43, 62, 43, 70, 29};
+		System.out.println(arr.length);
+		System.out.println(eqArr(arr));
+	}
+
+}
