@@ -1,0 +1,16 @@
+n = 13 // decimal value to be converted
+var result = "",
+	rem = 0,
+	max = 0;
+while(n >= 1){
+	rem = n % 2;
+	n = Math.floor(n / 2);
+	result +=rem;
+}
+
+result.split("0").forEach(function(each){
+	if(each.length > max) {
+		max = each.length;	
+    }
+});
+console.log(max);
