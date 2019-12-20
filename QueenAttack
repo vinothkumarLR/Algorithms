@@ -1,0 +1,284 @@
+package com.vinoth.sample;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+
+public class QueenAttack {
+	
+	static int queensAttack(int n, int k, int r_q, int c_q, int[][] obstacles) {
+		HashMap<Integer, List<int[]>> map = new HashMap<Integer, List<int[]>>();
+		
+		int x = 0;
+		int y = 0;
+		
+		if(n == 1) {
+			return 0;
+		}
+		
+        List<int[]> obs1;
+        for (int[] two_d : obstacles) {
+        	x = n - two_d[0];
+        	y = two_d[1] - 1;
+        	
+        	if(map.containsKey(x)) {
+        		obs1 = map.get(x);
+        		obs1.add(new int[] {x,y});
+        		map.put(x, obs1);
+        	} else {
+        		obs1 = new ArrayList<int[]>();
+        		obs1.add(new int[] {x,y});
+        		map.put(x, obs1);
+        	}
+		}
+        
+        
+        r_q = n - r_q;
+        c_q = c_q - 1;
+        
+        // right
+        int right = 0;
+        int r_c_pointer = c_q + 1;
+        int r_r_pointer = r_q;
+        
+        while_r_loop:
+        while(r_c_pointer < n) {
+        	obs1 = map.get(r_r_pointer);
+        	if(obs1 != null) {
+        		for (int[] is : obs1) {
+            		x = is[0];
+            		y = is[1];
+            		if(r_c_pointer == y && r_r_pointer == x) {
+    					break while_r_loop;
+    				}
+    			}
+        	}
+        	
+        	r_c_pointer++;
+			    right++;
+        }
+        System.out.println(right); 
+        
+        // left
+        int left = 0;
+        int l_c_pointer = c_q - 1;
+        int l_r_pointer = r_q;
+        
+        while_l_loop:
+        while(l_c_pointer >= 0) {
+        	
+        	obs1 = map.get(l_r_pointer);
+        	if(obs1 != null) {
+        		for (int[] is : obs1) {
+            		x = is[0];
+            		y = is[1];
+            		if(l_c_pointer == y && l_r_pointer == x) {
+        				break while_l_loop;
+        			}
+    			}
+        	}
+        	
+        	
+        	l_c_pointer--;
+        	left++;
+        }
+        System.out.println(left);
+        
+        // up
+        int up = 0;
+        int u_r_pointer = r_q - 1;
+        int u_c_pointer = c_q;
+        
+        while_u_loop:
+        while(u_r_pointer >= 0) {
+        	
+        	obs1 = map.get(u_r_pointer);
+        	
+        	if(obs1 != null) {
+        		for (int[] is : obs1) {
+            		x = is[0];
+            		y = is[1];
+            		if(u_c_pointer == y && u_r_pointer == x) {
+        				break while_u_loop;
+        			}
+    			}
+        	}
+        	
+        	u_r_pointer--;
+        	up++;
+        }
+        System.out.println(up);
+        
+     	// down
+        int down = 0;
+        int d_r_pointer = r_q + 1;
+        int d_c_pointer = c_q;
+        
+        while_d_loop:
+        while(d_r_pointer < n) {
+        	
+        	obs1 = map.get(d_r_pointer);
+        	
+        	if(obs1 != null) {
+        		for (int[] is : obs1) {
+            		x = is[0];
+            		y = is[1];
+            		if(d_c_pointer == y && d_r_pointer == x) {
+        				break while_d_loop;
+        			}
+    			}
+        	}
+        	
+        	d_r_pointer++;
+        	down++;
+        }
+        System.out.println(down);
+        
+        // ur
+        int ur = 0;
+        int ur_r_pointer = r_q - 1;
+        int ur_c_pointer = c_q + 1;
+        
+        while_ur_loop:
+        while(ur_r_pointer >= 0 && ur_c_pointer < n) {
+        	
+        	obs1 = map.get(ur_r_pointer);
+        	
+        	if(obs1 != null) {
+        		for (int[] is : obs1) {
+            		x = is[0];
+            		y = is[1];
+            		if(ur_c_pointer == y && ur_r_pointer == x) {
+        				break while_ur_loop;
+        			}
+    			}
+        	}
+        	
+        	ur_r_pointer--;
+        	ur_c_pointer++;
+        	ur++;
+        }
+        System.out.println(ur);
+        
+        // ul
+        int ul = 0;
+        int ul_r_pointer = r_q - 1;
+        int ul_c_pointer = c_q - 1;
+        
+        while_ul_loop:
+        while(ul_r_pointer >= 0 && ul_c_pointer >= 0) {
+        	
+        	obs1 = map.get(ul_r_pointer);
+        	
+        	if(obs1 != null) {
+        		for (int[] is : obs1) {
+            		x = is[0];
+            		y = is[1];
+            		if(ul_c_pointer == y && ul_r_pointer == x) {
+        				break while_ul_loop;
+        			}
+    			}
+        	}
+        	
+        	ul_r_pointer--;
+        	ul_c_pointer--;
+        	ul++;
+        }
+        System.out.println(ul);
+        
+        // dr
+        int dr = 0;
+        int dr_r_pointer = r_q + 1;
+        int dr_c_pointer = c_q + 1;
+        
+        while_dr_loop:
+        while(dr_r_pointer < n && dr_c_pointer < n) {
+        	
+        	obs1 = map.get(dr_r_pointer);
+        	
+        	if(obs1 != null) {
+        		for (int[] is : obs1) {
+            		x = is[0];
+            		y = is[1];
+            		if(dr_c_pointer == y && dr_r_pointer == x) {
+        				break while_dr_loop;
+        			}
+    			}
+        	}
+        	dr_r_pointer++;
+        	dr_c_pointer++;
+        	dr++;
+        }
+        System.out.println(dr);
+        
+        // dl
+        int dl = 0;
+        int dl_r_pointer = r_q + 1;
+        int dl_c_pointer = c_q - 1;
+        
+        while_dl_loop:
+        while(dl_r_pointer < n && dl_c_pointer >= 0) {
+        	
+        	obs1 = map.get(dl_r_pointer);
+        	
+        	if(obs1 != null) {
+        		for (int[] is : obs1) {
+            		x = is[0];
+            		y = is[1];
+            		if(dl_c_pointer == y && dl_r_pointer == x) {
+        				break while_dl_loop;
+        			}
+    			}
+        	}
+        	
+        	dl_r_pointer++;
+        	dl_c_pointer--;
+        	dl++;
+        }
+        System.out.println(dl);
+        
+        return right + left + up + down + ur + ul + dr + dl;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+	
+	public static void main(String[] args) throws IOException {
+		//BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] nk = scanner.nextLine().split(" ");
+
+        int n = Integer.parseInt(nk[0]);
+
+        int k = Integer.parseInt(nk[1]);
+
+        String[] r_qC_q = scanner.nextLine().split(" ");
+
+        int r_q = Integer.parseInt(r_qC_q[0]);
+
+        int c_q = Integer.parseInt(r_qC_q[1]);
+
+        int[][] obstacles = new int[k][2];
+
+        for (int i = 0; i < k; i++) {
+            String[] obstaclesRowItems = scanner.nextLine().split(" ");
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            for (int j = 0; j < 2; j++) {
+                int obstaclesItem = Integer.parseInt(obstaclesRowItems[j]);
+                obstacles[i][j] = obstaclesItem;
+            }
+        }
+
+        System.out.println(queensAttack(n, k, r_q, c_q, obstacles));
+
+//        bufferedWriter.write(String.valueOf(result));
+//        bufferedWriter.newLine();
+//
+//        bufferedWriter.close();
+
+        scanner.close();
+	}
+
+}
