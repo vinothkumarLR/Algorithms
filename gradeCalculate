@@ -1,0 +1,16 @@
+function gradingStudents(grades) {
+    // Write your code here
+    var result = [];
+    grades.forEach(function(grade){
+        var nextMul = (Math.floor(grade / 5) + 1) * 5,
+            gap = nextMul - grade,
+            temp  = grade;
+            if(grade >=38){
+                if(gap < 3) {
+                temp = nextMul;
+                }
+            }
+            result.push(temp);
+    });
+    return result;
+}
