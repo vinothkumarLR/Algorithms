@@ -1,0 +1,32 @@
+package com.vinoth.test;
+
+public class SumOfDiagonal {
+
+	public static void main(String[] args) {
+		int[][] mat = new int[][] {{1,2,3}, {4,5,6}, {7,8,9}};
+        
+		int m = 3;
+		int n = 0;
+		int d1 = 0;
+		int d2 = 0;
+		int i = 0, j = 0;
+		while(n < m) {
+			d1 = d1 + mat[i][j];
+			i = i + 1;
+			j = j + 1;
+			n++;
+		}
+		
+		i = 0;
+		j = m - 1;
+		n = 0;
+		while(n < m) {
+			d2 = d2 + mat[i][j];
+			i = i + 1;
+			j = j - 1;
+			n++;
+		}
+		System.out.println(Math.abs(d1 - d2));
+	}
+
+}
