@@ -1,0 +1,181 @@
+package com.synechron.sample;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.stream.Stream;
+
+public class Bomberman {
+	
+	public static String[] setZero(String[] outcome) {
+		StringBuilder strBuilder;
+		for(int i = 0; i < outcome.length; i++) {
+			strBuilder = new StringBuilder(outcome[i]);
+			for(int z = 0; z < strBuilder.length(); z++) {
+				if((strBuilder.charAt(z) == '3') || (strBuilder.charAt(z) == '2') || (strBuilder.charAt(z) == '1')) {
+					strBuilder.setCharAt(z, 'O');
+				}
+			}
+			outcome[i] = strBuilder.toString();
+		}
+		return outcome;
+	}
+	
+	static HashMap<Integer, String[]> map = new HashMap<Integer, String[]>();
+	
+	public static void put(int step, String[] outcome) {
+		String[] strings = Stream.of(outcome).toArray(String[]::new);
+		map.put(step, strings);
+		for (Entry<Integer,String[]> m : map.entrySet()) {
+			System.out.println(m.getKey());
+			String[] temp = m.getValue();
+			System.out.println(temp[0]);
+		}
+	}
+	
+    // Complete the bomberMan function below.
+    public static String[] bomberMan(int n, String[] grid) {
+    	
+    	Integer a = 1;
+    	StringBuilder strBuilder;
+    	String[] outcome = null;
+    	int r = 0;
+    	int c = 0;
+    	
+    	long total = n;
+    	n = n > 5 ? 5 : n;
+    	
+    	outcome = new String[grid.length];
+    	for(int i = 0; i < grid.length; i++) {
+			strBuilder = new StringBuilder(grid[i]);
+			for(int j = 0; j < strBuilder.length(); j++) {
+				if(strBuilder.charAt(j) == 'O') {
+					strBuilder.setCharAt(j, '2');
+				}
+			}
+			outcome[i] = strBuilder.toString();
+		}
+    	
+    	// step 2, 3, 4, 5 will be repeating for next, next sequences - its enough till 5th
+    	for(int step = 2; step <= n; step++) {
+    		for(int i = 0; i < outcome.length; i++) {
+    			strBuilder = new StringBuilder(outcome[i]);
+    			for(int j = 0; j < strBuilder.length(); j++) {
+    				if(strBuilder.charAt(j) == '.') {
+    					if(step % 2 == 0) {
+    						strBuilder.setCharAt(j, '3');
+    						outcome[i] = strBuilder.toString();
+    					}
+    				} else if(strBuilder.charAt(j) == '3') {
+    					strBuilder.setCharAt(j, '2');
+    					outcome[i] = strBuilder.toString();
+    				} else if(strBuilder.charAt(j) == '2') {
+    					strBuilder.setCharAt(j, '1');
+    					outcome[i] = strBuilder.toString();
+    				} else if(strBuilder.charAt(j) == '1') {
+    					// blast here
+    					strBuilder.setCharAt(j, '.');
+    					
+    					// move column
+    					r = i;
+    					
+    					c = j + 1;
+    					if(c < strBuilder.length()) {
+    						if(!(strBuilder.charAt(c) == '1')) {
+    							strBuilder.setCharAt(c, '.');
+    						}
+    					}
+    					
+    					c = j - 1;
+    					if(c >= 0) {
+    						if(!(strBuilder.charAt(c) == '1')) {
+    							strBuilder.setCharAt(c, '.');
+    						}
+    					}
+    					
+    					outcome[i] = strBuilder.toString();
+    					
+    					// move row
+    					r = i + 1;
+    					c = j;
+    					if(r < outcome.length) {
+    						strBuilder = new StringBuilder(outcome[r]);
+    						if(!(strBuilder.charAt(c) == '1')) {
+    							strBuilder.setCharAt(c, '.');
+            					outcome[r] = strBuilder.toString();
+    						}
+    					}
+    					
+    					r = i - 1;
+    					c = j;
+    					if(r >= 0) {
+    						strBuilder = new StringBuilder(outcome[r]);
+    						if(!(strBuilder.charAt(c) == '1')) {
+    							strBuilder.setCharAt(c, '.');
+            					outcome[r] = strBuilder.toString();
+    						}
+        					
+    					}
+    					strBuilder = new StringBuilder(outcome[i]);
+    				}
+    				
+    			}
+    			
+    		}
+    		put(step - 1,outcome);
+    	}
+    	
+    	if(total > 5) {
+    		a = (int) ((total - 1) % 4);
+    		outcome = map.get(a == 0 ? 4 : a);
+    		
+    	}
+    	
+    	outcome = setZero(outcome);
+		
+		return outcome;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+    	
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] rcn = scanner.nextLine().split(" ");
+
+        int r = Integer.parseInt(rcn[0]);
+
+        int c = Integer.parseInt(rcn[1]);
+
+        int n = Integer.parseInt(rcn[2]);
+
+        String[] grid = new String[r];
+
+        for (int i = 0; i < r; i++) {
+            String gridItem = scanner.nextLine();
+            grid[i] = gridItem;
+        }
+
+        String[] result = bomberMan(n, grid);
+
+        for (int i = 0; i < result.length; i++) {
+            bufferedWriter.write(result[i]);
+
+            if (i != result.length - 1) {
+                bufferedWriter.write("\n");
+            }
+        }
+
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+
+}
+	
